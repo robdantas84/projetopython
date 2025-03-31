@@ -10,8 +10,10 @@ app = Flask(__name__)
 
 SECRET_KEY = os.urandom(6)
 app.config['SECRET_KEY'] = SECRET_KEY
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///comunidade.db'
+if os.getenv("URL_DO_BANCO_DE_DADOS"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("URL_DO_BANCO_DE_DADOS")
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///comunidade.db'
 
 database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
